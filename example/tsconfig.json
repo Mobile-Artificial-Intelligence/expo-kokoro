@@ -1,0 +1,10 @@
+{
+  "extends": "expo/tsconfig.base",
+  "compilerOptions": {
+    "strict": true,
+    "paths": {
+      "expo-kokoro": ["../src/index"],
+      "expo-kokoro/*": ["../src/*"]
+    }
+  }
+}
