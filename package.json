@@ -29,7 +29,8 @@
   "license": "MIT",
   "homepage": "https://github.com/danemadsen/expo-kokoro#readme",
   "dependencies": {
-    "onnxruntime-react-native": "^1.22.0"
+    "onnxruntime-react-native": "^1.22.0",
+    "phonemize": "^1.1.0"
   },
   "devDependencies": {
     "@types/react": "~19.0.0",
