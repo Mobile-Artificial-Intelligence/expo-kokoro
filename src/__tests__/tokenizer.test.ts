@@ -1,4 +1,4 @@
-import tokenizer, { Tokenizer } from "../tokenizer";
+import { Tokenizer } from "../tokenizer";
 
 describe("Tokenizer", () => {
   it("encodes then decodes back to the same normalized text", () => {
