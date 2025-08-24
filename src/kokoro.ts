@@ -1,5 +1,6 @@
 import { InferenceSession } from "onnxruntime-react-native";
 import tokenizer from "./tokenizer";
+import { loadVoiceBytes, Voice } from "./voices";
 
 export class Kokoro {
   session: InferenceSession;
@@ -8,8 +9,15 @@ export class Kokoro {
     this.session = session;
   }
 
-  static async from_checkpoint(checkpointPath: string): Promise<Kokoro> {
-    const session = await InferenceSession.create(checkpointPath);
+  static async from_checkpoint(checkpoint_path: string): Promise<Kokoro> {
+    const session = await InferenceSession.create(checkpoint_path);
     return new Kokoro(session);
+  }
+
+  async generate(text: string, voice: Voice): Promise<unknown> {
+    const input_ids = tokenizer.encode(text);
+    const voice_bytes = await loadVoiceBytes(voice);
+    
+    return;
   }
 }
