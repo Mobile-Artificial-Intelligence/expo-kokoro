@@ -1,4 +1,5 @@
 import { InferenceSession } from "onnxruntime-react-native";
+import tokenizer from "./tokenizer";
 
 export class Kokoro {
   session: InferenceSession;
