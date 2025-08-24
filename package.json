@@ -48,9 +48,14 @@
     "react-native": "*"
   },
   "jest": {
-    "preset": "jest-expo",
+    "preset": "ts-jest",
+    "testEnvironment": "node",
     "testMatch": [
       "**/__tests__/**/*.(test|spec).(ts|tsx|js|jsx)"
-    ]
+    ],
+    "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json"],
+    "transform": {
+      "^.+\\.(ts|tsx)$": "ts-jest"
+    }
   }
 }
