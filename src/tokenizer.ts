@@ -1,5 +1,5 @@
-import tokenizerJSON from "./tokenizer.json";
-import tokenizerConfig from "./tokenizer_config.json";
+import tokenizerJSON from "./data/tokenizer.json";
+import tokenizerConfig from "./data/tokenizer_config.json";
 
 type Vocab = Record<string, number>;
 
