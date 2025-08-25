@@ -1,6 +1,6 @@
 import * as FileSystem from 'expo-file-system';
 import { InferenceSession, Tensor } from "onnxruntime-react-native";
-import tokenizer from "./tokenizer";
+import { tokenizer } from "./tokenizer";
 import { load_voice_data, Voice } from "./voices";
 import floatArrayToWAV from "./wav";
 

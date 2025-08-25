@@ -170,5 +170,4 @@ export class Tokenizer {
 }
 
 // --- Singleton, ready to use without passing JSONs ---
-const tokenizer = new Tokenizer();
-export default tokenizer;
+export const tokenizer = new Tokenizer();
