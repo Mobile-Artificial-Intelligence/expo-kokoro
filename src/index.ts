@@ -1,2 +1,2 @@
-export { tokenizer } from "./tokenizer";
+export { Kokoro } from "./kokoro";
 export { Voice } from "./voices";
