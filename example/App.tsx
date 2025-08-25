@@ -3,7 +3,6 @@ import { Button, SafeAreaView, TextInput } from 'react-native';
 import { Audio } from 'expo-av';
 import * as FileSystem from 'expo-file-system';
 import { Asset } from 'expo-asset';
-import { Audio } from 'expo-av';
 import { Kokoro, Voice } from 'expo-kokoro';
 
 export default function App() {
