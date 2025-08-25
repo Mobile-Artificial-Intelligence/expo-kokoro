@@ -4,6 +4,13 @@ const path = require('path');
 
 const config = getDefaultConfig(__dirname);
 
+// Support loading binary assets like .onnx and voice .bin files
+config.resolver.assetExts = [
+  ...(config.resolver.assetExts || []),
+  'onnx',
+  'bin',
+];
+
 // npm v7+ will install ../node_modules/react and ../node_modules/react-native because of peerDependencies.
 // To prevent the incompatible react-native between ./node_modules/react-native and ../node_modules/react-native,
 // excludes the one from the parent folder when bundling.
@@ -19,7 +26,7 @@ config.resolver.nodeModulesPaths = [
 ];
 
 config.resolver.extraNodeModules = {
-  'expo-kokoro': '..',
+  'expo-kokoro': path.resolve(__dirname, '../src'),
 };
 
 config.watchFolders = [path.resolve(__dirname, '..')];
