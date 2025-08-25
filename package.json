@@ -29,6 +29,7 @@
   "license": "MIT",
   "homepage": "https://github.com/danemadsen/expo-kokoro#readme",
   "dependencies": {
+    "expo-file-system": "^18.1.11",
     "onnxruntime-react-native": "^1.22.0",
     "phonemize": "^1.1.0"
   },
@@ -53,7 +54,13 @@
     "testMatch": [
       "**/__tests__/**/*.(test|spec).(ts|tsx|js|jsx)"
     ],
-    "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json"],
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json"
+    ],
     "transform": {
       "^.+\\.(ts|tsx)$": "ts-jest"
     }

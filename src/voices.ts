@@ -11,7 +11,7 @@ export enum Voice {
     Emma = "emma",
     Isabella = "isabella",
     George = "george",
-    Lewis = "lewis",
+    Lewis = "lewis"
 }
 
 const VOICE_ASSETS: Record<Voice, number> = {
@@ -28,9 +28,7 @@ const VOICE_ASSETS: Record<Voice, number> = {
     [Voice.Lewis]: require("./voices/bm_lewis.bin"),
 };
 
-export const allVoices: Voice[] = Object.keys(VOICE_ASSETS) as Voice[];
-
-export async function loadVoiceBytes(voice: Voice): Promise<Uint8Array> {
+export async function load_voice_data(voice: Voice): Promise<Uint8Array> {
     const asset = Asset.fromModule(VOICE_ASSETS[voice]);
 
     if (!asset.downloaded) {
