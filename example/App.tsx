@@ -1,7 +1,8 @@
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useMemo, useRef, useState, useEffect } from 'react';
 import { Button, SafeAreaView, ScrollView, Text, TextInput, View } from 'react-native';
 import * as FileSystem from 'expo-file-system';
 import { Asset } from 'expo-asset';
+import { Audio } from 'expo-av';
 import { Kokoro, Voice } from 'expo-kokoro';
 
 export default function App() {
@@ -11,6 +12,16 @@ export default function App() {
   const [outputPath, setOutputPath] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const kokoroRef = useRef<Kokoro | null>(null);
+  const soundRef = useRef<Audio.Sound | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (soundRef.current) {
+        soundRef.current.unloadAsync().catch(() => {});
+        soundRef.current = null;
+      }
+    };
+  }, []);
 
   const availableVoices = useMemo(() => Object.values(Voice), []);
 
@@ -37,6 +48,19 @@ export default function App() {
       const output = `${FileSystem.cacheDirectory}kokoro-output-${Date.now()}.wav`;
       await kokoro.generate(text, voice, output);
       setOutputPath(output);
+
+      // Prepare and play audio via expo-av
+      if (soundRef.current) {
+        await soundRef.current.unloadAsync();
+        soundRef.current = null;
+      }
+
+      await Audio.setAudioModeAsync({ playsInSilentModeIOS: true });
+      const { sound } = await Audio.Sound.createAsync(
+        { uri: output },
+        { shouldPlay: true }
+      );
+      soundRef.current = sound;
     } catch (e: any) {
       setError(e?.message ?? String(e));
     } finally {
