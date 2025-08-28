@@ -1,9 +1,0 @@
-{
-  "platforms": ["apple", "android", "web"],
-  "apple": {
-    "modules": ["KokoroModule"]
-  },
-  "android": {
-    "modules": ["expo.modules.kokoro.KokoroModule"]
-  }
-}
