@@ -4,12 +4,6 @@
   "description": "A expo module for using kokoro tts models",
   "main": "build/index.js",
   "types": "build/index.d.ts",
-  "expo": {
-    "autolinking": {
-      "android": "./android",
-      "ios": "./ios"
-    }
-  },
   "scripts": {
     "build": "expo-module build",
     "clean": "expo-module clean",
