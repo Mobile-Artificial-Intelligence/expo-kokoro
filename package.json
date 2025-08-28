@@ -4,6 +4,12 @@
   "description": "A expo module for using kokoro tts models",
   "main": "build/index.js",
   "types": "build/index.d.ts",
+  "expo": {
+    "autolinking": {
+      "android": "./android",
+      "ios": "./ios"
+    }
+  },
   "scripts": {
     "build": "expo-module build",
     "clean": "expo-module clean",
@@ -13,7 +19,9 @@
     "prepublishOnly": "expo-module prepublishOnly",
     "expo-module": "expo-module",
     "open:ios": "xed example/ios",
-    "open:android": "open -a \"Android Studio\" example/android"
+    "open:android": "open -a \"Android Studio\" example/android",
+    "android": "expo run:android",
+    "ios": "expo run:ios"
   },
   "keywords": [
     "react-native",
@@ -31,7 +39,10 @@
   "dependencies": {
     "expo-file-system": "^18.1.11",
     "onnxruntime-react-native": "^1.22.0",
-    "phonemize": "^1.1.0"
+    "phonemize": "^1.1.0",
+    "expo": "~53.0.22",
+    "react": "19.0.0",
+    "react-native": "0.79.6"
   },
   "devDependencies": {
     "@types/jest": "^30.0.0",

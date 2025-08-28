@@ -1,0 +1,8 @@
+{
+  "android": {
+    "package": "com.danemadsen.expokokoro"
+  },
+  "ios": {
+    "bundleIdentifier": "com.danemadsen.expokokoro"
+  }
+}
