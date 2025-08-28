@@ -51,7 +51,8 @@
   "peerDependencies": {
     "expo": "*",
     "react": "*",
-    "react-native": "*"
+    "react-native": "*",
+    "onnxruntime-react-native": "*"
   },
   "jest": {
     "preset": "ts-jest",
