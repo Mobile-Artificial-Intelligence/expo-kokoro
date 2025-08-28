@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { Button, SafeAreaView, TextInput } from 'react-native';
+import { Button, SafeAreaView, TextInput, Alert } from 'react-native';
 import { Audio } from 'expo-av';
 import * as FileSystem from 'expo-file-system';
 import { Asset } from 'expo-asset';
@@ -11,17 +11,25 @@ export default function App() {
   const kokoroRef = useRef<Kokoro | null>(null);
 
   async function ensureModelLoaded(): Promise<Kokoro> {
-    if (kokoroRef.current) return kokoroRef.current;
+    try {
+      if (kokoroRef.current) return kokoroRef.current;
 
-    const asset = Asset.fromModule(require('./assets/kokoro-quantized.onnx'));
-    if (!asset.downloaded) {
-      await asset.downloadAsync();
+      const asset = Asset.fromModule(require('./assets/kokoro-quantized.onnx'));
+      if (!asset.downloaded) {
+        console.log("Downloading model asset...");
+        await asset.downloadAsync();
+      }
+      const modelPath = asset.localUri ?? asset.uri;
+      console.log("Model path:", modelPath);
+
+      const kokoro = await Kokoro.from_checkpoint(modelPath);
+      kokoroRef.current = kokoro;
+      return kokoro;
+    } catch (err) {
+      console.error("Failed to load model:", err);
+      Alert.alert("Error", "Failed to load Kokoro model: " + (err as Error).message);
+      throw err;
     }
-    const modelPath = asset.localUri ?? asset.uri;
-
-    const kokoro = await Kokoro.from_checkpoint(modelPath);
-    kokoroRef.current = kokoro;
-    return kokoro;
   }
 
   async function onSpeak() {
@@ -29,10 +37,17 @@ export default function App() {
     try {
       const kokoro = await ensureModelLoaded();
       const output = `${FileSystem.cacheDirectory}kokoro-${Date.now()}.wav`;
+      console.log("Generating speech to:", output);
+
       await kokoro.generate(text, Voice.Af, output);
+      console.log("Generated audio, now playing...");
 
       const { sound } = await Audio.Sound.createAsync({ uri: output });
       await sound.playAsync();
+      console.log("Playback started.");
+    } catch (err) {
+      console.error("Speak error:", err);
+      Alert.alert("Error", "Something went wrong:\n" + (err as Error).message);
     } finally {
       setIsLoading(false);
     }
