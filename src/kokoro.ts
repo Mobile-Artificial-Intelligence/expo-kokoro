@@ -17,7 +17,6 @@ export class Kokoro {
 
   static async from_checkpoint(checkpoint_path: string): Promise<Kokoro> {
     const options = {
-      executionProviders: ['cpuexecutionprovider'],
       graphOptimizationLevel: 'all',
       enableCpuMemArena: true,
       enableMemPattern: true,
