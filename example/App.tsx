@@ -1,14 +1,22 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Button, SafeAreaView, TextInput, Alert } from 'react-native';
-import { Audio } from 'expo-av';
+import { AudioSource, useAudioPlayer } from 'expo-audio';
 import * as FileSystem from 'expo-file-system';
 import { Asset } from 'expo-asset';
 import { Kokoro, Voice } from 'expo-kokoro';
 
 export default function App() {
+  const [source, setSource] = useState<AudioSource | null>(null);
+  const player = useAudioPlayer(source);
   const [text, setText] = useState('Hello from Kokoro!');
   const [isLoading, setIsLoading] = useState(false);
   const kokoroRef = useRef<Kokoro | null>(null);
+
+  useEffect(() => {
+    if (player && !player.playing && source) {
+      player.play;
+    }
+  }, [player, source])
 
   async function ensureModelLoaded(): Promise<Kokoro> {
     try {
@@ -39,12 +47,11 @@ export default function App() {
       const output = `${FileSystem.cacheDirectory}kokoro-${Date.now()}.wav`;
       console.log("Generating speech to:", output);
 
-      await kokoro.generate(text, Voice.Af, output);
+      await kokoro.generate(text, Voice.Sky, output);
       console.log("Generated audio, now playing...");
 
-      const { sound } = await Audio.Sound.createAsync({ uri: output });
-      await sound.playAsync();
-      console.log("Playback started.");
+      const source: AudioSource = { uri: output };
+      setSource(source);
     } catch (err) {
       console.error("Speak error:", err);
       Alert.alert("Error", "Something went wrong:\n" + (err as Error).message);
