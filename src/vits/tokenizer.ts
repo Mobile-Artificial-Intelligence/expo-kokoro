@@ -1,4 +1,4 @@
-const token_map = {
+const token_map: Record<string, number> = {
     " ": 3,
     "!": 4,
     "\"": 150,
@@ -157,3 +157,22 @@ const token_map = {
     "↓": 148,
     "ⱱ": 129
 };
+
+const id_to_token: Record<number, string> = {};
+for (const [ch, id] of Object.entries(token_map)) {
+    if (!(id in id_to_token)) {
+        id_to_token[id] = ch;
+    }
+}
+
+export function encode(text: string): number[] {
+    const ids: number[] = [];
+    for (const ch of text) {
+        ids.push(token_map[ch] ?? 0);
+    }
+    return ids;
+}
+
+export function decode(ids: number[]): string {
+    return ids.map(id => id_to_token[id] ?? "_").join("");
+}

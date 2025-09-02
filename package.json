@@ -58,7 +58,7 @@
     "preset": "ts-jest",
     "testEnvironment": "node",
     "testMatch": [
-      "**/__tests__/**/*.(test|spec).(ts|tsx|js|jsx)"
+      "**/**/*.(test|spec).(ts|tsx|js|jsx)"
     ],
     "moduleFileExtensions": [
       "ts",

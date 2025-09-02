@@ -1,4 +1,4 @@
-import { Tokenizer } from "../kokoro/tokenizer";
+import { Tokenizer } from "./tokenizer";
 
 describe("Tokenizer", () => {
   it("encodes then decodes back to the same normalized text", () => {
