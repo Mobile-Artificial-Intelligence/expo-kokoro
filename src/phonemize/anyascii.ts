@@ -1,4 +1,4 @@
-import * as BLOCK_MAP from "../data/anyascii.json";
+import * as BLOCK_MAP from "./anyascii.json";
 import { resolveJson } from "./utils";
 
 const blocks = resolveJson<Record<string, string[]>>(BLOCK_MAP);

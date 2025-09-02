@@ -34,7 +34,9 @@ export class Kokoro {
 
   async generate(text: string, voice: Voice, outputPath: string): Promise<void> {
     const phonemes = phonemize(text);
+    console.log(phonemes);
     const tokens = tokenizer.encode(phonemes);
+    console.log(tokens);
     const n_tokens = Math.min(Math.max(tokens.length - 2, 0), MAX_PHONEME_LENGTH - 1);
     const offset = n_tokens * STYLE_DIM;
 
