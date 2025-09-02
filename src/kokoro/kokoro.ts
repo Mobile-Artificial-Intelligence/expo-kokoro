@@ -3,6 +3,7 @@ import { InferenceSession, Tensor } from "onnxruntime-react-native";
 import { tokenizer } from "./tokenizer";
 import { load_voice_data, Voice } from "./voices";
 import floatArrayToWAV from "../wav";
+import { phonemize } from 'phonemize';
 
 const SAMPLE_RATE = 24000;
 const STYLE_DIM = 256;
@@ -32,7 +33,8 @@ export class Kokoro {
   }
 
   async generate(text: string, voice: Voice, outputPath: string): Promise<void> {
-    const tokens = tokenizer.encode(text);
+    const phonemes = phonemize(text);
+    const tokens = tokenizer.encode(phonemes);
     const n_tokens = Math.min(Math.max(tokens.length - 2, 0), MAX_PHONEME_LENGTH - 1);
     const offset = n_tokens * STYLE_DIM;
 
