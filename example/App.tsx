@@ -13,8 +13,12 @@ export default function App() {
   const kokoroRef = useRef<Kokoro | null>(null);
 
   useEffect(() => {
-    if (player && !player.playing && source) {
-      player.play;
+    try {
+      if (player && !player.playing && source) {
+        player.play();
+      }
+    } catch (error) {
+      console.error("Error playing audio:", error);
     }
   }, [player, source])
 

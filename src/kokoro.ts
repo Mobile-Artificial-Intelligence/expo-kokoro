@@ -39,9 +39,6 @@ export class Kokoro {
     const voice_data = await load_voice_data(voice);
     const style_data = voice_data.slice(offset, offset + STYLE_DIM);
 
-    console.log("tokens:", tokens);
-    console.log("style_data length:", style_data.length);
-    console.log("style_data preview:", style_data.slice(0, 10));
     const inputs = {
       input_ids: new Tensor('int64', new BigInt64Array(tokens.map(BigInt)), [1, tokens.length]),
       style: new Tensor('float32', new Float32Array(style_data), [1, STYLE_DIM]),
@@ -49,15 +46,13 @@ export class Kokoro {
     }
 
     const outputs = await this.session.run(inputs);
+
     if (!outputs || !outputs['waveform'] || !outputs['waveform'].data) {
       throw new Error('Invalid output from model inference');
     }
       
     const data = outputs['waveform'].data as Float32Array;
-    console.log("Output waveform length:", data.length);
-
     const wav = floatArrayToWAV(data, SAMPLE_RATE);
-    console.log("WAV: ", wav);
 
     await FileSystem.writeAsStringAsync(
       outputPath, 
