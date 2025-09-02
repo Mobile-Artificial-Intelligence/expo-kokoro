@@ -6,11 +6,9 @@
 import anyAscii from "./anyascii";
 import { expandText } from "./expand";
 import { simplePOSTagger } from "./pos-tagger";
-import { ARPABET_TO_IPA, IPA_STRESS_MAP, PUNCTUATION } from "./consts";
-import { detectLanguage, getG2PProcessor, predictPhonemes } from "./g2p";
+import { PUNCTUATION } from "./consts";
+import { detectLanguage, predictPhonemes } from "./g2p";
 import { ipaToArpabet, convertChineseTonesToArrows } from "./utils";
-import type { G2PProcessor } from "./g2p";
-import type ChineseG2P from "./zh-g2p";
 
 // Tokenization regex patterns
 const TOKEN_REGEX = /([\u4e00-\u9fff\u3400-\u4dbf\uf900-\ufaff]+|\w+['']?\w*|[^\w\s\u4e00-\u9fff\u3400-\u4dbf\uf900-\ufaff])/g;
@@ -353,15 +351,8 @@ export class Tokenizer {
       // Check language map for multilingual words
       const detectedLanguage = languageMap[cleanToken.toLowerCase()];
       
-      // Handle Zhuyin format specially
-      if (this.options.format === "zhuyin" && detectedLanguage === "zh") {
-        // Convert Chinese to Zhuyin
-        const g2p = getG2PProcessor(cleanToken, detectedLanguage) as ChineseG2P | null;
-        phoneme = g2p?.textToZhuyin?.(cleanToken) ?? this._predict(cleanToken, detectedLanguage, pos);
-      } else {
-        // Regular IPA/ARPABET processing
-        phoneme = this._predict(cleanToken, detectedLanguage, pos);
-      }
+      // Regular IPA/ARPABET processing
+      phoneme = this._predict(cleanToken, detectedLanguage, pos);
       
       // Apply custom separator to individual phonemes if needed
       if (this.options.separator !== " ") {
