@@ -44,7 +44,7 @@ export class Kokoro {
     const style_data = voice_data.slice(offset, offset + STYLE_DIM);
 
     const inputs = {
-      input_ids: new Tensor('int64', new BigInt64Array(tokens.map(BigInt)), [1, tokens.length]),
+      input_ids: new Tensor('int64', tokens, [1, tokens.length]),
       style: new Tensor('float32', new Float32Array(style_data), [1, STYLE_DIM]),
       speed: new Tensor('float32', new Float32Array([1.0]), [1])
     }

@@ -3,14 +3,14 @@ import { Button, SafeAreaView, TextInput, Alert } from 'react-native';
 import { AudioSource, useAudioPlayer } from 'expo-audio';
 import * as FileSystem from 'expo-file-system';
 import { Asset } from 'expo-asset';
-import { Vits } from 'expo-kokoro';
+import { Kokoro, Voice } from 'expo-kokoro';
 
 export default function App() {
   const [source, setSource] = useState<AudioSource | null>(null);
   const player = useAudioPlayer(source);
-  const [text, setText] = useState('Hello world! This is the vits model.');
+  const [text, setText] = useState('Hello from Kokoro!');
   const [isLoading, setIsLoading] = useState(false);
-  const vitsRef = useRef<Vits | null>(null);
+  const kokoroRef = useRef<Kokoro | null>(null);
 
   useEffect(() => {
     try {
@@ -22,11 +22,11 @@ export default function App() {
     }
   }, [player, source])
 
-  async function ensureModelLoaded(): Promise<Vits> {
+  async function ensureModelLoaded(): Promise<Kokoro> {
     try {
-      if (vitsRef.current) return vitsRef.current;
+      if (kokoroRef.current) return kokoroRef.current;
 
-      const asset = Asset.fromModule(require('./assets/curie.onnx'));
+      const asset = Asset.fromModule(require('./assets/kokoro-quantized.onnx'));
       if (!asset.downloaded) {
         console.log("Downloading model asset...");
         await asset.downloadAsync();
@@ -34,12 +34,12 @@ export default function App() {
       const modelPath = asset.localUri ?? asset.uri;
       console.log("Model path:", modelPath);
 
-      const vits = await Vits.from_checkpoint(modelPath);
-      vitsRef.current = vits;
-      return vits;
+      const kokoro = await Kokoro.from_checkpoint(modelPath);
+      kokoroRef.current = kokoro;
+      return kokoro;
     } catch (err) {
       console.error("Failed to load model:", err);
-      Alert.alert("Error", "Failed to load Vits model: " + (err as Error).message);
+      Alert.alert("Error", "Failed to load Kokoro model: " + (err as Error).message);
       throw err;
     }
   }
@@ -47,11 +47,11 @@ export default function App() {
   async function onSpeak() {
     setIsLoading(true);
     try {
-      const vits = await ensureModelLoaded();
-      const output = `${FileSystem.cacheDirectory}vits-${Date.now()}.wav`;
+      const kokoro = await ensureModelLoaded();
+      const output = `${FileSystem.cacheDirectory}kokoro-${Date.now()}.wav`;
       console.log("Generating speech to:", output);
 
-      await vits.generate(text, output);
+      await kokoro.generate(text, Voice.Heart, output);
       console.log("Generated audio, now playing...");
 
       const source: AudioSource = { uri: output };
