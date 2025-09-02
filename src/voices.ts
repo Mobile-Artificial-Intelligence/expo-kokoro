@@ -3,7 +3,7 @@ import { Asset } from "expo-asset";
 export enum Voice {
     // American Female
     Alloy = "alloy",
-    Aoeda = "aoeda",
+    Aoede = "aoede",
     Bella = "bella",
     Heart = "heart",
     Jessica = "jessica",
@@ -40,7 +40,7 @@ export enum Voice {
 
 const VOICE_ASSETS: Record<Voice, number> = {
     [Voice.Alloy]: require("./voices/af_alloy.bin"),
-    [Voice.Aoeda]: require("./voices/af_aoeda.bin"),
+    [Voice.Aoede]: require("./voices/af_aoede.bin"),
     [Voice.Bella]: require("./voices/af_bella.bin"),
     [Voice.Heart]: require("./voices/af_heart.bin"),
     [Voice.Jessica]: require("./voices/af_jessica.bin"),

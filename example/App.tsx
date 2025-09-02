@@ -51,7 +51,7 @@ export default function App() {
       const output = `${FileSystem.cacheDirectory}kokoro-${Date.now()}.wav`;
       console.log("Generating speech to:", output);
 
-      await kokoro.generate(text, Voice.Sky, output);
+      await kokoro.generate(text, Voice.Heart, output);
       console.log("Generated audio, now playing...");
 
       const source: AudioSource = { uri: output };
