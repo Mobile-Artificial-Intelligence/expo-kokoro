@@ -132,8 +132,8 @@ const PHONEME_RULES: Array<[RegExp, string]> = [
   [/^ay/, 'eɪ'],                  // day, say, way
   [/^ai/, 'eɪ'],                  // rain, main, paid
   [/^ea/, 'i'],                   // read, seat, beat (default long)
-  [/^ee/, 'i'],                   // see, tree, free
-  [/^ie/, 'i'],                   // piece, field, believe  
+  [/^ee/, 'iː'],                  // see, tree, free (long i)
+  [/^ie/, 'iː'],                  // piece, field, believe  (long i)
   [/^ei/, 'eɪ'],                  // vein, weight, eight
   [/^ey/, 'eɪ'],                  // they, grey, key (at end)
   [/^ight/, 'aɪt'],               // night, right, knight (i+ght)
@@ -141,17 +141,17 @@ const PHONEME_RULES: Array<[RegExp, string]> = [
   [/^ross/, 'ɹoʊs'],              // gross -> groʊs
   [/^oss/, 'ɔs'],                 // cross, loss (short o)
   [/^eu/, 'ju'],                  // feud, neuter, Europe
-  [/^ew/, 'u'],                   // few, new, threw
-  [/^ue/, 'u'],                   // true, blue, glue (at end)
-  [/^ui/, 'u'],                   // fruit, suit, cruise
+  [/^ew/, 'uː'],                  // few, new, threw (long u)
+  [/^ue/, 'uː'],                  // true, blue, glue (at end) (long u)
+  [/^ui/, 'uː'],                  // fruit, suit, cruise (long u)
   
   // R-controlled vowels (rhotic)
   [/^arr/, 'æɹ'],                 // carry, marry, arrow
   [/^ar/, 'ɑɹ'],                  // car, far, start
-  [/^er/, 'ɚ'],                   // her, term, serve (use ɚ for unstressed)
-  [/^ir/, 'ɝ'],                   // bird, first, girl
+  [/^er/, 'ɚ'],                   // her, term, serve (r-colored schwa)
+  [/^ir/, 'ɚ'],                   // bird, first, girl (prefer ɚ for espeak-like compat)
   [/^or/, 'ɔɹ'],                  // for, port, storm
-  [/^ur/, 'ɝ'],                   // fur, turn, hurt
+  [/^ur/, 'ɚ'],                   // fur, turn, hurt (prefer ɚ)
   [/^ear/, 'ɪɹ'],                 // hear, clear, year
   [/^eer/, 'ɪɹ'],                 // deer, cheer, peer
   [/^ier/, 'ɪɹ'],                 // pier, tier
@@ -327,18 +327,21 @@ export class G2PModel implements G2PProcessor {
     });
 
     if (syllableIPA.length > 0) {
-      let result = syllableIPA.join('');
-      
-      // Add stress marker
+      // Join syllables with espeak-like separator
+      const separator = '.';
+      let result = syllableIPA.join(separator);
+
+      // Add stress marker before the stressed syllable, accounting for separators
       if (syllables.length > 1 && stressedSyllableIndex >= 0) {
-        // Insert primary stress marker before the stressed syllable
         let charIndex = 0;
         for (let i = 0; i < stressedSyllableIndex; i++) {
           charIndex += syllableIPA[i].length;
+          // add one for each separator before the stressed syllable
+          charIndex += 1;
         }
         result = result.substring(0, charIndex) + 'ˈ' + result.substring(charIndex);
       }
-      
+
       return result;
     }
 
@@ -823,6 +826,15 @@ export class G2PModel implements G2PProcessor {
       }
     }
     
+    // Upgrade r-colored schwa to stressed variant when stressed (espeak-like)
+    if (isStressed) {
+      for (let i = 0; i < phonemes.length; i++) {
+        if (phonemes[i] === 'ɚ') {
+          phonemes[i] = 'ɝ';
+        }
+      }
+    }
+
     // Magic 'e' rule for stressed syllables
     if (endsWithSilentE && isStressed && phonemes.length > 0) {
       const shortToLong: Record<string, string> = { 
