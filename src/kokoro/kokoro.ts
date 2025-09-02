@@ -2,7 +2,7 @@ import * as FileSystem from 'expo-file-system';
 import { InferenceSession, Tensor } from "onnxruntime-react-native";
 import { tokenizer } from "./tokenizer";
 import { load_voice_data, Voice } from "./voices";
-import floatArrayToWAV from "./wav";
+import floatArrayToWAV from "../wav";
 
 const SAMPLE_RATE = 24000;
 const STYLE_DIM = 256;
