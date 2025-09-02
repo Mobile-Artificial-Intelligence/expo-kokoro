@@ -1,7 +1,7 @@
 import * as FileSystem from 'expo-file-system';
 import { InferenceSession, Tensor } from "onnxruntime-react-native";
 import { encode } from './tokenizer';
-import { phonemize } from 'phonemize';
+import { phonemize } from "../phonemize/index";
 
 const SAMPLE_RATE = 22050;
 

@@ -33,7 +33,6 @@
   "dependencies": {
     "expo-file-system": "^18.1.11",
     "onnxruntime-react-native": "^1.22.0",
-    "phonemize": "^1.1.0",
     "expo": "~53.0.22",
     "react": "19.0.0",
     "react-native": "0.79.6"
