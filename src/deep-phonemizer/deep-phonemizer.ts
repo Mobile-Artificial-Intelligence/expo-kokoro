@@ -40,9 +40,10 @@ export class DeepPhonemizer {
 
     async phonemize(text: string, lang: string = "en_us"): Promise<string> {
         const tokenIds = encode(text, lang);
+        console.log(tokenIds);
 
         const inputTensor = new Tensor("int64", BigInt64Array.from(tokenIds.map(BigInt)), [1, tokenIds.length]);
-
+        console.log(this.session.inputNames);
         const feeds: Record<string, Tensor> = { text: inputTensor };
         const results = await this.session.run(feeds);
 

@@ -174,26 +174,27 @@ const phoneme_symbols = [
     "-"
 ] as const;
 
-const text_map: Record<string, number> = {};
-const phoneme_map: Record<string, number> = {};
-
-text_map[" "] = 0;
-phoneme_map[" "] = 0;
+const text_map: Record<string, number> = {
+    " ": 0
+};
+const phoneme_map: Record<string, number> = {
+    " ": 0
+};
 
 for (const lang of languages) {
-    text_map[`<${lang}>`] = text_map.length;
-    phoneme_map[`<${lang}>`] = phoneme_map.length;
+    text_map[`<${lang}>`] = Object.keys(text_map).length;
+    phoneme_map[`<${lang}>`] = Object.keys(phoneme_map).length;
 }
 
-text_map["<end>"] = text_map.length;
-phoneme_map["<end>"] = phoneme_map.length;
+text_map["<end>"] = Object.keys(text_map).length;
+phoneme_map["<end>"] = Object.keys(phoneme_map).length;
 
 for (const text of text_symbols) {
-  text_map[text] = text_map.length;
+  text_map[text] = Object.keys(text_map).length;
 }
 
 for (const phoneme of phoneme_symbols) {
-  phoneme_map[phoneme] = phoneme_map.length;
+  phoneme_map[phoneme] = Object.keys(phoneme_map).length;
 }
 
 const token_map: Record<number, string> = {};
