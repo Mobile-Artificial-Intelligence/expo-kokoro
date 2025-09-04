@@ -1,9 +1,20 @@
 import { InferenceSession, Tensor } from "onnxruntime-react-native";
 import { encode, decode } from './tokenizer';
-import dicts from "./dictionary.json";
 import { Asset } from 'expo-asset';
 
-const dictionaries = dicts as Record<string, Record<string, string>>;
+import en_uk from '../../dictionaries/en_uk.json';
+import en_us from '../../dictionaries/en_us.json';
+import de from '../../dictionaries/de.json';
+import fr from '../../dictionaries/fr.json';
+import es from '../../dictionaries/es.json';
+
+const dictionaries = {
+    "en_uk": en_uk,
+    "en_us": en_us,
+    "de": de,
+    "fr": fr,
+    "es": es
+} as Record<string, Record<string, string>>;
 
 export class DeepPhonemizer {
     session: InferenceSession;
@@ -44,7 +55,7 @@ export class DeepPhonemizer {
         const words = text.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"").split(/\s+/);
         const phonemes = [];
 
-        const dictionary = dictionaries[lang] as Record<string, string>;
+        const dictionary = dictionaries[lang];
         for (const word of words) {
             const phoneme = dictionary[word] || await this._phonemize(word, lang);
             phonemes.push(phoneme);
