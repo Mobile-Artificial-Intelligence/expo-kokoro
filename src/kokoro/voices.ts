@@ -69,7 +69,7 @@ const VOICE_ASSETS: Record<Voice, number> = {
     [Voice.Lewis]: require("./voices/bm_lewis.bin"),
 };
 
-export async function load_voice_data(voice: Voice): Promise<Uint8Array> {
+export async function load_voice_data(voice: Voice): Promise<Float32Array> {
     const asset = Asset.fromModule(VOICE_ASSETS[voice]);
 
     if (!asset.downloaded) {
@@ -80,5 +80,5 @@ export async function load_voice_data(voice: Voice): Promise<Uint8Array> {
     const res = await fetch(uri);
     const buf = await res.arrayBuffer();
 
-    return new Uint8Array(buf);
+    return new Float32Array(buf);
 }
