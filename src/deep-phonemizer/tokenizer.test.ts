@@ -24,23 +24,26 @@ describe("Tokenizer", () => {
 
   test("decode returns original text", () => {
     const text = "hello";
+    const decoded_Text = "khoos";
     const ids = encode(text);
     const decoded = decode(ids);
-    expect(decoded).toBe(text);
+    expect(decoded).toBe(decoded_Text);
   });
 
   test("decode strips language and <end>", () => {
     const text = "test";
+    const decoded_Text = "xhwx";
     const ids = encode(text, "fr");
     const decoded = decode(ids);
-    expect(decoded).toBe(text); // no lang markers or <end>
+    expect(decoded).toBe(decoded_Text); // no lang markers or <end>
   });
 
   test("decode stops at <end>", () => {
     const text = "abc";
+    const decoded_Text = "bde";
     const ids = encode(text);
     const withGarbage = [...ids, 9999, 9998]; // append fake tokens
     const decoded = decode(withGarbage);
-    expect(decoded).toBe(text);
+    expect(decoded).toBe(decoded_Text);
   });
 });
