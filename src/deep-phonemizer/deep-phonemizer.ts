@@ -39,11 +39,15 @@ export class DeepPhonemizer {
     }
 
     async phonemize(text: string, lang: string = "en_us"): Promise<string> {
-        const tokenIds = encode(text, lang);
-        console.log(tokenIds);
+        const tokens = encode(text, lang);
+        console.log(tokens);
 
-        const inputTensor = new Tensor("int64", BigInt64Array.from(tokenIds.map(BigInt)), [1, tokenIds.length]);
-        console.log(this.session.inputNames);
+        // If the tokens are smaller than 64 in lenth pad with zeros
+        while (tokens.length < 64) {
+            tokens.push(0);
+        }
+
+        const inputTensor = new Tensor("int64", BigInt64Array.from(tokens.map(BigInt)), [1, tokens.length]);
         const feeds: Record<string, Tensor> = { text: inputTensor };
         const results = await this.session.run(feeds);
 
@@ -52,9 +56,23 @@ export class DeepPhonemizer {
             throw new Error("No output tensor from model");
         }
 
-        // outputTensor.data is usually a TypedArray (Int64Array or BigInt64Array)
-        const outIds: number[] = Array.from(outputTensor.data as any).map((x) => Number(x));
+        const logits = outputTensor.data as Float32Array;
 
+        // shape: [1, seq_len, vocab_size]
+        const [_batch, seq, vocab] = outputTensor.dims;
+        const outIds: number[] = [];
+        for (let t = 0; t < seq; t++) {
+          let maxIdx = 0;
+          let maxVal = -Infinity;
+          for (let v = 0; v < vocab; v++) {
+            const val = logits[t * vocab + v];
+            if (val > maxVal) {
+              maxVal = val;
+              maxIdx = v;
+            }
+          }
+          outIds.push(maxIdx);
+        }
         return decode(outIds);
     }
 }

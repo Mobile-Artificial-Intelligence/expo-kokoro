@@ -1,178 +1,4 @@
-const languages = [
-    "en_uk",
-    "en_us",
-    "de",
-    "fr",
-    "es"
-] as const;
-
-const text_symbols = [
-    "'",
-    "a",
-    "b",
-    "c",
-    "d",
-    "e",
-    "f",
-    "g",
-    "h",
-    "i",
-    "j",
-    "k",
-    "l",
-    "m",
-    "n",
-    "o",
-    "p",
-    "q",
-    "r",
-    "s",
-    "t",
-    "u",
-    "v",
-    "w",
-    "x",
-    "y",
-    "z",
-    "º",
-    "à",
-    "á",
-    "â",
-    "ã",
-    "ä",
-    "å",
-    "æ",
-    "ç",
-    "è",
-    "é",
-    "ê",
-    "ë",
-    "í",
-    "î",
-    "ï",
-    "ð",
-    "ñ",
-    "ó",
-    "ô",
-    "õ",
-    "ö",
-    "ø",
-    "ù",
-    "ú",
-    "û",
-    "ü",
-    "ÿ",
-    "ā",
-    "ą",
-    "č",
-    "ē",
-    "ę",
-    "ğ",
-    "ī",
-    "ı",
-    "ł",
-    "ń",
-    "ō",
-    "ő",
-    "œ",
-    "ř",
-    "ū",
-    "ž",
-    "ǃ",
-    "ș",
-    "ț",
-    "ʼ",
-    "ṭ",
-    "ꝇ"
-] as const;
-
-const phoneme_symbols = [
-    "a",
-    "b",
-    "d",
-    "e",
-    "f",
-    "h",
-    "i",
-    "j",
-    "k",
-    "l",
-    "m",
-    "n",
-    "o",
-    "p",
-    "r",
-    "s",
-    "t",
-    "u",
-    "v",
-    "w",
-    "x",
-    "y",
-    "z",
-    "æ",
-    "ç",
-    "ð",
-    "õ",
-    "ø",
-    "ŋ",
-    "œ",
-    "ɐ",
-    "ɑ",
-    "ɒ",
-    "ɔ",
-    "ɘ",
-    "ə",
-    "ɚ",
-    "ɛ",
-    "ɜ",
-    "ɝ",
-    "ɟ",
-    "ɡ",
-    "ɥ",
-    "ɪ",
-    "ɫ",
-    "ɱ",
-    "ɲ",
-    "ɹ",
-    "ɾ",
-    "ʀ",
-    "ʁ",
-    "ʃ",
-    "ʊ",
-    "ʋ",
-    "ʌ",
-    "ʍ",
-    "ʎ",
-    "ʏ",
-    "ʒ",
-    "ʔ",
-    "ʝ",
-    "ʰ",
-    "ː",
-    "̃",
-    "̊",
-    "̍",
-    "̥",
-    "̩",
-    "̯",
-    "͜",
-    "͡",
-    "β",
-    "θ",
-    "χ",
-    "‿",
-    ".",
-    ",",
-    ":",
-    ";",
-    "?",
-    "!",
-    "\"",
-    "(",
-    ")",
-    "-"
-] as const;
+import config from "./config.json";
 
 const text_map: Record<string, number> = {
     " ": 0
@@ -181,7 +7,7 @@ const phoneme_map: Record<string, number> = {
     " ": 0
 };
 
-for (const lang of languages) {
+for (const lang of config.languages) {
     text_map[`<${lang}>`] = Object.keys(text_map).length;
     phoneme_map[`<${lang}>`] = Object.keys(phoneme_map).length;
 }
@@ -189,11 +15,11 @@ for (const lang of languages) {
 text_map["<end>"] = Object.keys(text_map).length;
 phoneme_map["<end>"] = Object.keys(phoneme_map).length;
 
-for (const text of text_symbols) {
+for (const text of config.text_symbols) {
   text_map[text] = Object.keys(text_map).length;
 }
 
-for (const phoneme of phoneme_symbols) {
+for (const phoneme of config.phoneme_symbols) {
   phoneme_map[phoneme] = Object.keys(phoneme_map).length;
 }
 
@@ -215,6 +41,8 @@ export function encode(text: string, lang: string = "en_us"): Array<number> {
         const code = text_map[char];
         if (code !== undefined) {
             result.push(code);
+            result.push(code);
+            result.push(code);
         }
     }
 
@@ -225,14 +53,17 @@ export function encode(text: string, lang: string = "en_us"): Array<number> {
 
 export function decode(ids: Array<number>): string {
     const result: Array<string> = [];
+    console.log(ids);
 
     for (const id of ids) {
         const ch = token_map[id];
         if (ch === "<end>") break;
+        if (ch.startsWith("<") && ch.endsWith(">") && config.languages.includes(ch.slice(1, -1) as any)) continue;
         if (ch !== undefined) {
             result.push(ch);
         }
     }
 
+    console.log(result);
     return result.join("");
 }
