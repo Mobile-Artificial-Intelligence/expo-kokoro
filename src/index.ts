@@ -1,2 +1,3 @@
-export { Kokoro } from "./kokoro";
-export { Voice } from "./voices";
+export { Kokoro } from "./kokoro/kokoro";
+export { Vits } from "./vits/vits";
+export { Voice } from "./kokoro/voices";

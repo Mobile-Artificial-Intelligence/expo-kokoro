@@ -5951,11 +5951,6 @@ nullthrows@^1.1.1:
   resolved "https://registry.yarnpkg.com/nullthrows/-/nullthrows-1.1.1.tgz#7818258843856ae971eae4208ad7d7eb19a431b1"
   integrity sha512-2vPPEi+Z7WqML2jZYddDIfy5Dqb0r2fze2zTxNNknZaFpVHU3mFB3R+DWeJWGVx0ecvttSGlJTI+WG+8Z4cDWw==
 
-number-to-words@^1.2.4:
-  version "1.2.4"
-  resolved "https://registry.yarnpkg.com/number-to-words/-/number-to-words-1.2.4.tgz#e0f124de9628f8d86c4eeb89bac6c07699264501"
-  integrity sha512-/fYevVkXRcyBiZDg6yzZbm0RuaD6i0qRfn8yr+6D0KgBMOndFPxuW10qCHpzs50nN8qKuv78k8MuotZhcVX6Pw==
-
 nwsapi@^2.2.2:
   version "2.2.21"
   resolved "https://registry.yarnpkg.com/nwsapi/-/nwsapi-2.2.21.tgz#8df7797079350adda208910d8c33fc4c2d7520c3"
@@ -6228,14 +6223,6 @@ path-scurry@^1.11.1:
     lru-cache "^10.2.0"
     minipass "^5.0.0 || ^6.0.2 || ^7.0.0"
 
-phonemize@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/phonemize/-/phonemize-1.1.0.tgz#f41ef1942ceb96f7d515c6d35833b3398bb9782f"
-  integrity sha512-1OrNagrRUg8pbFF4rMsyl7XJF9Hyh9FWl5GBuBUz+JOZEt9YHiPJ6yJUvevkBBHVahY8Mi/ZmiWT9+kVbODX2Q==
-  dependencies:
-    number-to-words "^1.2.4"
-    pinyin-pro "^3.26.0"
-
 picocolors@^1.0.0, picocolors@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/picocolors/-/picocolors-1.1.1.tgz#3d321af3eab939b083c8f929a1d12cda81c26b6b"
@@ -6260,11 +6247,6 @@ pify@^4.0.1:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/pify/-/pify-4.0.1.tgz#4b2cd25c50d598735c50292224fd8c6df41e3231"
   integrity sha512-uB80kBFb/tfd68bVleG9T5GGsGPjJrLAUpR5PZIrhBnIaRTQRjqdJSsIKkOP6OAIFbj7GOrcudc5pNjZ+geV2g==
-
-pinyin-pro@^3.26.0:
-  version "3.27.0"
-  resolved "https://registry.yarnpkg.com/pinyin-pro/-/pinyin-pro-3.27.0.tgz#b13e60a2383067e5b1231106f7939a2c7591be29"
-  integrity sha512-Osdgjwe7Rm17N2paDMM47yW+jUIUH3+0RGo8QP39ZTLpTaJVDK0T58hOLaMQJbcMmAebVuK2ePunTEVEx1clNQ==
 
 pirates@^4.0.1, pirates@^4.0.4:
   version "4.0.7"
