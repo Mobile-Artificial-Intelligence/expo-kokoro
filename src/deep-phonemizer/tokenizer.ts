@@ -41,8 +41,6 @@ export function encode(text: string, lang: string = "en_us"): Array<number> {
         const code = text_map[char];
         if (code !== undefined) {
             result.push(code);
-            result.push(code);
-            result.push(code);
         }
     }
 

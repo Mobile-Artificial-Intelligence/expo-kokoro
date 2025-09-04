@@ -1,5 +1,7 @@
 import { InferenceSession, Tensor } from "onnxruntime-react-native";
 import { encode, decode } from './tokenizer';
+import config from "./config.json";
+import dictionaries from "./dictionary.json";
 import { Asset } from 'expo-asset';
 
 export class DeepPhonemizer {
@@ -39,6 +41,20 @@ export class DeepPhonemizer {
     }
 
     async phonemize(text: string, lang: string = "en_us"): Promise<string> {
+        // Lowercase, remove punctuation and split to words
+        const words = text.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"").split(/\s+/);
+        const phonemes = [];
+
+        const dictionary = dictionaries[lang] as Record<string, string>;
+        for (const word of words) {
+            const phoneme = dictionary[word] || await this._phonemize(word, lang);
+            phonemes.push(phoneme);
+        }
+
+        return phonemes.join(' ');
+    }
+
+    async _phonemize(text: string, lang: string = "en_us"): Promise<string> {
         const tokens = encode(text, lang);
         console.log(tokens);
 
