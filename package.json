@@ -70,8 +70,13 @@
       "^.+\\.(ts|tsx)$": [
         "ts-jest",
         {
-          "tsconfig": "tsconfig.json",
-          "useESM": true
+          "isolatedModules": true,
+          "diagnostics": true,
+          "tsconfig": {
+            "resolveJsonModule": true,
+            "esModuleInterop": true,
+            "allowSyntheticDefaultImports": true
+          }
         }
       ]
     },
