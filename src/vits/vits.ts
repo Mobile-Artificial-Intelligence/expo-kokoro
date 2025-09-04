@@ -1,16 +1,18 @@
 import * as FileSystem from 'expo-file-system';
 import { InferenceSession, Tensor } from "onnxruntime-react-native";
 import { encode } from './tokenizer';
-import { phonemize } from "../phonemize/index";
 import floatArrayToWAV from '../wav';
+import { DeepPhonemizer } from '../deep-phonemizer/deep-phonemizer';
 
 const SAMPLE_RATE = 22050;
 
 export class Vits {
+  phonemizer: DeepPhonemizer;
   session: InferenceSession;
-
-  constructor(session: InferenceSession) {
+  
+  constructor(session: InferenceSession, phonemizer: DeepPhonemizer) {
     this.session = session;
+    this.phonemizer = phonemizer;
   }
 
   static async from_checkpoint(checkpoint_path: string): Promise<Vits> {
@@ -26,12 +28,14 @@ export class Vits {
       options
     );
 
-    return new Vits(session);
+    const phonemizer = await DeepPhonemizer.default();
+
+    return new Vits(session, phonemizer);
   }
 
   async generate(text: string, outputPath: string): Promise<void> {
     // 1. Phonemize input text
-    const phonemes = phonemize(text);
+    const phonemes = await this.phonemizer.phonemize(text);
 
     // 2. Tokenize phonemes into IDs
     const tokens = encode(phonemes);
