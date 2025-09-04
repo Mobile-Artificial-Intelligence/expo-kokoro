@@ -4,6 +4,7 @@ import { tokenizer } from "./tokenizer";
 import { load_voice_data, Voice } from "./voices";
 import floatArrayToWAV from "../wav";
 import { DeepPhonemizer } from '../deep-phonemizer/deep-phonemizer';
+import { Asset } from 'expo-asset';
 
 const SAMPLE_RATE = 24000;
 const STYLE_DIM = 256;
@@ -34,6 +35,17 @@ export class Kokoro {
     const phonemizer = await DeepPhonemizer.default();
 
     return new Kokoro(session, phonemizer);
+  }
+
+  static async default(): Promise<Kokoro> {
+    const asset = Asset.fromModule(require('./kokoro-quantized.onnx'));
+    if (!asset.downloaded) {
+      console.log("Downloading Kokoro model...");
+      await asset.downloadAsync();
+    }
+
+    const modelPath = asset.localUri ?? asset.uri;
+    return Kokoro.from_checkpoint(modelPath);
   }
 
   async generate(text: string, voice: Voice, outputPath: string): Promise<void> {

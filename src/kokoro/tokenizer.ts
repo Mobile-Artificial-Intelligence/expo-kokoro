@@ -1,5 +1,4 @@
-import tokenizerJSON from "./data/tokenizer.json";
-import tokenizerConfig from "./data/tokenizer_config.json";
+import tokenizerJSON from "./tokenizer.json";
 
 type Vocab = Record<string, number>;
 
@@ -31,9 +30,9 @@ export class Tokenizer {
       Object.entries(this.vocab).map(([tok, id]) => [id, tok])
     );
 
-    this.modelMaxLength = tokenizerConfig.model_max_length;
-    this.padToken = tokenizerConfig.pad_token; // "$"
-    this.unkToken = tokenizerConfig.unk_token; // "$"
+    this.modelMaxLength = tokenizerJSON.config.model_max_length;
+    this.padToken = tokenizerJSON.config.pad_token; // "$"
+    this.unkToken = tokenizerJSON.config.unk_token; // "$"
 
     // "$" exists and is special in post-processor
     this.specialTokenId = this.vocab[this.padToken];

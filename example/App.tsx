@@ -26,15 +26,7 @@ export default function App() {
     try {
       if (kokoroRef.current) return kokoroRef.current;
 
-      const asset = Asset.fromModule(require('./assets/kokoro-quantized.onnx'));
-      if (!asset.downloaded) {
-        console.log("Downloading model asset...");
-        await asset.downloadAsync();
-      }
-      const modelPath = asset.localUri ?? asset.uri;
-      console.log("Model path:", modelPath);
-
-      const kokoro = await Kokoro.from_checkpoint(modelPath);
+      const kokoro = await Kokoro.default();
       kokoroRef.current = kokoro;
       return kokoro;
     } catch (err) {

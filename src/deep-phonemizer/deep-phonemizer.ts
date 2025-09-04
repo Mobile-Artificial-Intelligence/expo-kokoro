@@ -31,13 +31,11 @@ export class DeepPhonemizer {
     static async default(): Promise<DeepPhonemizer> {
         const asset = Asset.fromModule(require('./deep-phonemizer.onnx'));
         if (!asset.downloaded) {
-          console.log("Downloading model asset...");
-          await asset.downloadAsync();
+            console.log("Downloading Deep Phonemizer model...");
+            await asset.downloadAsync();
         }
 
         const modelPath = asset.localUri ?? asset.uri;
-        console.log("Model path:", modelPath);
-
         return DeepPhonemizer.from_checkpoint(modelPath);
     }
 
