@@ -1,8 +1,9 @@
 import { InferenceSession, Tensor } from "onnxruntime-react-native";
 import { encode, decode } from './tokenizer';
-import config from "./config.json";
-import dictionaries from "./dictionary.json";
+import dicts from "./dictionary.json";
 import { Asset } from 'expo-asset';
+
+const dictionaries = dicts as Record<string, Record<string, string>>;
 
 export class DeepPhonemizer {
     session: InferenceSession;
