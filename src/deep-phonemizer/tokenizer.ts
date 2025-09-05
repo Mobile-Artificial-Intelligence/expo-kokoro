@@ -39,7 +39,9 @@ export function encode(text: string, lang: string = "en_us"): Array<number> {
 
     for (const char of text) {
         const code = text_map[char];
-        if (code !== undefined) {
+        if (code === undefined) continue;
+
+        for (let i = 0; i < tokenizerJSON.char_repeats; i++) {
             result.push(code);
         }
     }
@@ -55,11 +57,14 @@ export function decode(ids: Array<number>): string {
 
     for (const id of ids) {
         const ch = token_map[id];
-        if (ch === "<end>") break;
-        if (ch.startsWith("<") && ch.endsWith(">") && tokenizerJSON.languages.includes(ch.slice(1, -1) as any)) continue;
-        if (ch !== undefined) {
-            result.push(ch);
-        }
+        if (ch === "<end>" || ch === undefined) break;
+        if (
+            ch.startsWith("<") && 
+            ch.endsWith(">") && 
+            tokenizerJSON.languages.includes(ch.slice(1, -1) as any)
+        ) continue;
+        if (ch === " ") continue;
+        result.push(ch);
     }
 
     console.log(result);
