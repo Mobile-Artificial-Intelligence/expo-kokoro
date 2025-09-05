@@ -23,22 +23,6 @@ export class DeepPhonemizer {
         this.session = session;
     }
 
-    static async from_checkpoint(checkpoint_path: string): Promise<DeepPhonemizer> {
-        const options = {
-            graphOptimizationLevel: 'all',
-            enableCpuMemArena: true,
-            enableMemPattern: true,
-            executionMode: 'sequential'
-        } as InferenceSession.SessionOptions;
-    
-        const session = await InferenceSession.create(
-            checkpoint_path,
-            options
-        );
-    
-        return new DeepPhonemizer(session);
-    }
-
     static async default(): Promise<DeepPhonemizer> {
         const asset = Asset.fromModule(require('./deep-phonemizer.onnx'));
         if (!asset.downloaded) {
@@ -47,7 +31,19 @@ export class DeepPhonemizer {
         }
 
         const modelPath = asset.localUri ?? asset.uri;
-        return DeepPhonemizer.from_checkpoint(modelPath);
+        const options = {
+            graphOptimizationLevel: 'all',
+            enableCpuMemArena: true,
+            enableMemPattern: true,
+            executionMode: 'sequential'
+        } as InferenceSession.SessionOptions;
+    
+        const session = await InferenceSession.create(
+            modelPath,
+            options
+        );
+    
+        return new DeepPhonemizer(session);
     }
 
     async phonemize(text: string, lang: string = "en_us"): Promise<string> {

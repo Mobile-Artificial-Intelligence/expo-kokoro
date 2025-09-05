@@ -19,24 +19,6 @@ export class Kokoro {
     this.phonemizer = phonemizer;
   }
 
-  static async from_checkpoint(checkpoint_path: string): Promise<Kokoro> {
-    const options = {
-      graphOptimizationLevel: 'all',
-      enableCpuMemArena: true,
-      enableMemPattern: true,
-      executionMode: 'sequential'
-    } as InferenceSession.SessionOptions;
-
-    const session = await InferenceSession.create(
-      checkpoint_path,
-      options
-    );
-
-    const phonemizer = await DeepPhonemizer.default();
-
-    return new Kokoro(session, phonemizer);
-  }
-
   static async default(): Promise<Kokoro> {
     const asset = Asset.fromModule(require('./kokoro-quantized.onnx'));
     if (!asset.downloaded) {
@@ -45,7 +27,21 @@ export class Kokoro {
     }
 
     const modelPath = asset.localUri ?? asset.uri;
-    return Kokoro.from_checkpoint(modelPath);
+    const options = {
+      graphOptimizationLevel: 'all',
+      enableCpuMemArena: true,
+      enableMemPattern: true,
+      executionMode: 'sequential'
+    } as InferenceSession.SessionOptions;
+
+    const session = await InferenceSession.create(
+      modelPath,
+      options
+    );
+
+    const phonemizer = await DeepPhonemizer.default();
+
+    return new Kokoro(session, phonemizer);
   }
 
   async generate(text: string, voice: Voice, outputPath: string): Promise<void> {
