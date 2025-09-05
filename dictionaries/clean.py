@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 import json
 import glob
-import os
 
 def clean_json_file(path: str):
     with open(path, "r", encoding="utf-8") as f:
