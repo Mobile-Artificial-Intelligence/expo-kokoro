@@ -23,7 +23,7 @@ export class DeepPhonemizer {
         this.session = session;
     }
 
-    static async default(): Promise<DeepPhonemizer> {
+    static async load(): Promise<DeepPhonemizer> {
         const asset = Asset.fromModule(require('./deep-phonemizer.onnx'));
         if (!asset.downloaded) {
             console.log("Downloading Deep Phonemizer model...");

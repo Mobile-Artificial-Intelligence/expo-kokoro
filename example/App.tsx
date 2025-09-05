@@ -26,7 +26,7 @@ export default function App() {
     try {
       if (kokoroRef.current) return kokoroRef.current;
 
-      const kokoro = await Kokoro.default();
+      const kokoro = await Kokoro.load();
       kokoroRef.current = kokoro;
       return kokoro;
     } catch (err) {

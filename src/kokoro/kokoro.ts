@@ -19,7 +19,7 @@ export class Kokoro {
     this.phonemizer = phonemizer;
   }
 
-  static async default(): Promise<Kokoro> {
+  static async load(): Promise<Kokoro> {
     const asset = Asset.fromModule(require('./kokoro-quantized.onnx'));
     if (!asset.downloaded) {
       console.log("Downloading Kokoro model...");
@@ -39,7 +39,7 @@ export class Kokoro {
       options
     );
 
-    const phonemizer = await DeepPhonemizer.default();
+    const phonemizer = await DeepPhonemizer.load();
 
     return new Kokoro(session, phonemizer);
   }
