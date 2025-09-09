@@ -3,6 +3,7 @@ import { InferenceSession, Tensor } from "onnxruntime-react-native";
 import { encode } from './tokenizer';
 import floatArrayToWAV from '../wav';
 import { DeepPhonemizer } from '../deep-phonemizer/deep-phonemizer';
+import { Asset } from 'expo-asset';
 
 const SAMPLE_RATE = 22050;
 
@@ -15,7 +16,7 @@ export class Vits {
     this.phonemizer = phonemizer;
   }
 
-  static async from_checkpoint(checkpoint_path: string): Promise<Vits> {
+  static async load_checkpoint(checkpoint_path: string): Promise<Vits> {
     const options = {
       graphOptimizationLevel: 'all',
       enableCpuMemArena: true,
@@ -28,17 +29,31 @@ export class Vits {
       options
     );
 
-    const phonemizer = await DeepPhonemizer.default();
+    const phonemizer = await DeepPhonemizer.load();
 
     return new Vits(session, phonemizer);
+  }
+
+  static async load(): Promise<Vits> {
+    const asset = Asset.fromModule(require('./curie.onnx'));
+    if (!asset.downloaded) {
+      console.log("Downloading Vits model...");
+      await asset.downloadAsync();
+    }
+
+    const modelPath = asset.localUri ?? asset.uri;
+
+    return Vits.load_checkpoint(modelPath);
   }
 
   async generate(text: string, outputPath: string): Promise<void> {
     // 1. Phonemize input text
     const phonemes = await this.phonemizer.phonemize(text);
+    console.log("Phonemes:", phonemes);
 
     // 2. Tokenize phonemes into IDs
     const tokens = encode(phonemes);
+    console.log("Tokens:", tokens);
     const lengths = [tokens.length];
 
     // 3. Build tensors for inputs

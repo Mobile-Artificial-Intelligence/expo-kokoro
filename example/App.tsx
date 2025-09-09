@@ -2,15 +2,14 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Button, SafeAreaView, TextInput, Alert } from 'react-native';
 import { AudioSource, useAudioPlayer } from 'expo-audio';
 import * as FileSystem from 'expo-file-system';
-import { Asset } from 'expo-asset';
-import { Kokoro, Voice } from 'expo-kokoro';
+import { Vits } from 'expo-kokoro';
 
 export default function App() {
   const [source, setSource] = useState<AudioSource | null>(null);
   const player = useAudioPlayer(source);
   const [text, setText] = useState('Hello from Kokoro!');
   const [isLoading, setIsLoading] = useState(false);
-  const kokoroRef = useRef<Kokoro | null>(null);
+  const vitsRef = useRef<Vits | null>(null);
 
   useEffect(() => {
     try {
@@ -22,16 +21,16 @@ export default function App() {
     }
   }, [player, source])
 
-  async function ensureModelLoaded(): Promise<Kokoro> {
+  async function ensureModelLoaded(): Promise<Vits> {
     try {
-      if (kokoroRef.current) return kokoroRef.current;
+      if (vitsRef.current) return vitsRef.current;
 
-      const kokoro = await Kokoro.load();
-      kokoroRef.current = kokoro;
-      return kokoro;
+      const model = await Vits.load();
+      vitsRef.current = model;
+      return model;
     } catch (err) {
       console.error("Failed to load model:", err);
-      Alert.alert("Error", "Failed to load Kokoro model: " + (err as Error).message);
+      Alert.alert("Error", "Failed to load Vits model: " + (err as Error).message);
       throw err;
     }
   }
@@ -43,7 +42,7 @@ export default function App() {
       const output = `${FileSystem.cacheDirectory}kokoro-${Date.now()}.wav`;
       console.log("Generating speech to:", output);
 
-      await kokoro.generate(text, Voice.Heart, output);
+      await kokoro.generate(text, output);
       console.log("Generated audio, now playing...");
 
       const source: AudioSource = { uri: output };
