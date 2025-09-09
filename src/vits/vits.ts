@@ -54,16 +54,10 @@ export class Vits {
     // 2. Tokenize phonemes into IDs
     const tokens = encode(phonemes);
     console.log("Tokens:", tokens);
-    const lengths = [tokens.length];
 
     // 3. Build tensors for inputs
-    const input_ids = new Tensor("int64", BigInt64Array.from(tokens.map(BigInt)), [
-      1,
-      tokens.length,
-    ]);
-    const input_lengths = new Tensor("int64", BigInt64Array.from(lengths.map(BigInt)), [
-      lengths.length,
-    ]);
+    const input_ids = new Tensor("int64", BigInt64Array.from(tokens.map(BigInt)), [1, tokens.length]);
+    const input_lengths = new Tensor("int64", BigInt64Array.from([BigInt(tokens.length)]), [1]);
     const scales = new Tensor("float32", new Float32Array([0.667, 1.0, 0.8]), [3]);
 
     const inputs: Record<string, Tensor> = {

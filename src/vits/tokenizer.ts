@@ -166,10 +166,12 @@ for (const [ch, id] of Object.entries(token_map)) {
 }
 
 export function encode(text: string): number[] {
-    const ids: number[] = [];
+    const ids: number[] = [1, 0];
     for (const ch of text) {
         ids.push(token_map[ch] ?? 0);
+        ids.push(0);
     }
+    ids.push(2);
     return ids;
 }
 
