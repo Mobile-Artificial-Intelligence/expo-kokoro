@@ -35,7 +35,7 @@ export class Vits {
   }
 
   static async load(): Promise<Vits> {
-    const asset = Asset.fromModule(require('./curie.onnx'));
+    const asset = Asset.fromModule(require('../../assets/curie.onnx'));
     if (!asset.downloaded) {
       console.log("Downloading Vits model...");
       await asset.downloadAsync();
