@@ -1,6 +1,6 @@
 {
   "name": "expo-kokoro",
-  "version": "1.0.1",
+  "version": "1.0.4",
   "description": "A expo module for using kokoro tts models",
   "main": "build/src/index.js",
   "types": "build/src/index.d.ts",
@@ -9,7 +9,7 @@
     "clean": "expo-module clean",
     "lint": "expo-module lint",
     "test": "jest",
-    "prepare": "expo-module prepare",
+    "prepare": "expo-module prepare && cp -r assets build/assets",
     "prepublishOnly": "expo-module prepublishOnly",
     "expo-module": "expo-module",
     "open:ios": "xed example/ios",
