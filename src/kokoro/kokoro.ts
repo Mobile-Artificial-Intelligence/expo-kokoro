@@ -20,7 +20,7 @@ export class Kokoro {
   }
 
   static async load(): Promise<Kokoro> {
-    const asset = Asset.fromModule(require('./kokoro-quantized.onnx'));
+    const asset = Asset.fromModule(require('../../assets/kokoro-quantized.onnx'));
     if (!asset.downloaded) {
       console.log("Downloading Kokoro model...");
       await asset.downloadAsync();
