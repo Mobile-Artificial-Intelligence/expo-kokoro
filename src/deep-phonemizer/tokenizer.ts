@@ -53,7 +53,6 @@ export function encode(text: string, lang: string = "en_us"): Array<number> {
 
 export function decode(ids: Array<number>): string {
     const result: Array<string> = [];
-    console.log(ids);
 
     for (const id of ids) {
         const ch = token_map[id];
@@ -67,6 +66,5 @@ export function decode(ids: Array<number>): string {
         result.push(ch);
     }
 
-    console.log(result);
     return result.join("");
 }

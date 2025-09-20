@@ -9,11 +9,11 @@ import fr from '../../dictionaries/fr.json';
 import es from '../../dictionaries/es.json';
 
 const dictionaries = {
-    "en_uk": en_uk,
-    "en_us": en_us,
-    "de": de,
-    "fr": fr,
-    "es": es
+  "en_uk": en_uk,
+  "en_us": en_us,
+  "de": de,
+  "fr": fr,
+  "es": es
 } as Record<string, Record<string, string>>;
 
 export class DeepPhonemizer {
@@ -62,7 +62,6 @@ export class DeepPhonemizer {
 
     async _phonemize(text: string, lang: string = "en_us"): Promise<string> {
         const tokens = encode(text, lang);
-        console.log(tokens);
 
         // If the tokens are smaller than 64 in lenth pad with zeros
         while (tokens.length < 64) {

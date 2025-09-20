@@ -1,7 +1,7 @@
 import * as FileSystem from 'expo-file-system';
 import { InferenceSession, Tensor } from "onnxruntime-react-native";
 import { tokenizer } from "./tokenizer";
-import { load_voice_data, Voice } from "./voices";
+import { load_voice_data, KokoroVoice } from "./voices";
 import floatArrayToWAV from "../wav";
 import { DeepPhonemizer } from '../deep-phonemizer/deep-phonemizer';
 import { Asset } from 'expo-asset';
@@ -44,7 +44,7 @@ export class Kokoro {
     return new Kokoro(session, phonemizer);
   }
 
-  async generate(text: string, voice: Voice, outputPath: string): Promise<void> {
+  async generate(text: string, voice: KokoroVoice, outputPath: string): Promise<void> {
     const phonemes = await this.phonemizer.phonemize(text);
     const tokens = tokenizer.encode(phonemes);
     const n_tokens = Math.min(Math.max(tokens.length - 2, 0), MAX_PHONEME_LENGTH - 1);
