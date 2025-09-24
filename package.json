@@ -9,7 +9,7 @@
     "clean": "expo-module clean",
     "lint": "expo-module lint",
     "test": "jest",
-    "prepare": "expo-module prepare && cp -r assets build/assets",
+    "prepare": "expo-module prepare && cp -r src/curie.onnx build/curie.onnx",
     "prepublishOnly": "expo-module prepublishOnly",
     "expo-module": "expo-module",
     "open:ios": "xed example/ios",
