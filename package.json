@@ -1,9 +1,9 @@
 {
   "name": "expo-vits",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A expo module for using vits tts models",
-  "main": "build/src/index.js",
-  "types": "build/src/index.d.ts",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
   "scripts": {
     "build": "expo-module build",
     "clean": "expo-module clean",
