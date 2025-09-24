@@ -1,7 +1,7 @@
 import * as FileSystem from 'expo-file-system';
 import { InferenceSession, Tensor } from "onnxruntime-react-native";
 import { encode } from './tokenizer';
-import floatArrayToWAV from '../wav';
+import floatArrayToWAV from './wav';
 import { DeepPhonemizer } from 'expo-deep-phonemizer';
 import { Asset } from 'expo-asset';
 
@@ -35,7 +35,7 @@ export class Vits {
   }
 
   static async load(): Promise<Vits> {
-    const asset = Asset.fromModule(require('../../assets/curie.onnx'));
+    const asset = Asset.fromModule(require('../assets/curie.onnx'));
     if (!asset.downloaded) {
       console.log("Downloading Vits model...");
       await asset.downloadAsync();

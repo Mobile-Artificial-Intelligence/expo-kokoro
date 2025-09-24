@@ -1,8 +1,8 @@
 {
   "android": {
-    "package": "com.danemadsen.expokokoro"
+    "package": "com.danemadsen.expo-vits"
   },
   "ios": {
-    "bundleIdentifier": "com.danemadsen.expokokoro"
+    "bundleIdentifier": "com.danemadsen.expo-vits"
   }
 }

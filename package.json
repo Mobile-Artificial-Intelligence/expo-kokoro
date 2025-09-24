@@ -1,7 +1,7 @@
 {
-  "name": "expo-kokoro",
+  "name": "expo-vits",
   "version": "1.0.8",
-  "description": "A expo module for using kokoro tts models",
+  "description": "A expo module for using vits tts models",
   "main": "build/src/index.js",
   "types": "build/src/index.d.ts",
   "scripts": {
@@ -20,16 +20,16 @@
   "keywords": [
     "react-native",
     "expo",
-    "expo-kokoro",
-    "Kokoro"
+    "expo-vits",
+    "vits"
   ],
-  "repository": "https://github.com/danemadsen/expo-kokoro",
+  "repository": "https://github.com/danemadsen/expo-vits",
   "bugs": {
-    "url": "https://github.com/danemadsen/expo-kokoro/issues"
+    "url": "https://github.com/danemadsen/expo-vits/issues"
   },
   "author": "Dane Madsen <dane_madsen@hotmail.com> (https://github.com/danemadsen)",
   "license": "MIT",
-  "homepage": "https://github.com/danemadsen/expo-kokoro#readme",
+  "homepage": "https://github.com/danemadsen/expo-vits#readme",
   "dependencies": {
     "expo-file-system": "^18.1.11",
     "expo-deep-phonemizer": "^1.0.0",
