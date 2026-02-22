@@ -3,7 +3,7 @@ import { InferenceSession, Tensor } from "onnxruntime-react-native";
 import { tokenizer } from "./tokenizer";
 import { load_voice_data, KokoroVoice } from "./voices";
 import floatArrayToWAV from "./wav";
-import { DeepPhonemizer } from 'expo-deep-phonemizer';
+import { OpenPhonemizer } from 'expo-open-phonemizer';
 import { Asset } from 'expo-asset';
 
 const SAMPLE_RATE = 24000;
@@ -11,10 +11,10 @@ const STYLE_DIM = 256;
 const MAX_PHONEME_LENGTH = 510;
 
 export class Kokoro {
-  phonemizer: DeepPhonemizer;
+  phonemizer: OpenPhonemizer;
   session: InferenceSession;
 
-  constructor(session: InferenceSession, phonemizer: DeepPhonemizer) {
+  constructor(session: InferenceSession, phonemizer: OpenPhonemizer) {
     this.session = session;
     this.phonemizer = phonemizer;
   }
@@ -39,13 +39,13 @@ export class Kokoro {
       options
     );
 
-    const phonemizer = await DeepPhonemizer.load();
+    const phonemizer = await OpenPhonemizer.load();
 
     return new Kokoro(session, phonemizer);
   }
 
   async generate(text: string, voice: KokoroVoice, outputPath: string): Promise<void> {
-    const phonemes = await this.phonemizer.phonemize(text, "en_us", true);
+    const phonemes = await this.phonemizer.phonemize(text, true);
     const tokens = tokenizer.encode(phonemes);
     const n_tokens = Math.min(Math.max(tokens.length - 2, 0), MAX_PHONEME_LENGTH - 1);
     const offset = n_tokens * STYLE_DIM;
